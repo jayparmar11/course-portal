@@ -8,7 +8,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
 
     if (empty($email) || empty($password)) {
-        die('Email and password are required.');
+        header('Location: login.php?error=empty');
+        exit;
     }
 
     $stmt = $db->prepare('SELECT id, name, password_hash, role FROM users WHERE email = ?');
@@ -31,9 +32,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             exit;
         } else {
-            die('Invalid password.');
+            header('Location: login.php?error=invalid');
+            exit;
         }
     } else {
-        die('User not found.');
+        header('Location: login.php?error=notfound');
+        exit;
     }
 }
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script>
+        function validateForm() {
+            const email = document.forms['loginForm']['email'].value;
+            const password = document.forms['loginForm']['password'].value;
+
+            if (!email || !password) {
+                alert('Email and password are required.');
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <h1>Login</h1>
+
+    <?php if (isset($_GET['error'])): ?>
+        <p style="color: red;">
+            <?php
+            switch ($_GET['error']) {
+                case 'empty':
+                    echo 'Email and password are required.';
+                    break;
+                case 'invalid':
+                    echo 'Invalid password. Please try again.';
+                    break;
+                case 'notfound':
+                    echo 'User not found. Please register first.';
+                    break;
+                default:
+                    echo 'An unknown error occurred.';
+            }
+            ?>
+        </p>
+    <?php endif; ?>
+
+    <form name="loginForm" action="login.php" method="POST" onsubmit="return validateForm()">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br>
+
+        <button type="submit">Login</button>
+    </form>
+</body>
+</html>

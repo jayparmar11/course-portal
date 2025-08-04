@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param('ssss', $name, $email, $passwordHash, $role);
 
     if ($stmt->execute()) {
-        header('Location: login.html');
+        header('Location: login.php');
         exit;
     } else {
         die('Error: ' . $stmt->error);

@@ -19,6 +19,27 @@
 </head>
 <body>
     <h1>Login</h1>
+
+    <?php if (isset($_GET['error'])): ?>
+        <p style="color: red;">
+            <?php
+            switch ($_GET['error']) {
+                case 'empty':
+                    echo 'Email and password are required.';
+                    break;
+                case 'invalid':
+                    echo 'Invalid password. Please try again.';
+                    break;
+                case 'notfound':
+                    echo 'User not found. Please register first.';
+                    break;
+                default:
+                    echo 'An unknown error occurred.';
+            }
+            ?>
+        </p>
+    <?php endif; ?>
+
     <form name="loginForm" action="login.php" method="POST" onsubmit="return validateForm()">
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required><br>
