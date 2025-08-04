@@ -1,0 +1,2 @@
+<?php
+// Manage Courses Placeholder
