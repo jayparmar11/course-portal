@@ -1,0 +1,393 @@
+:root {
+  --primary-color: #ff7043;
+  --primary-hover-color: #ffebdc;
+  --background-color: #fff;
+  --text-color: #000;
+  --border-color: #ccc;
+  --input-background-color: #f9f9f9;
+  --box-shadow-color: rgba(255, 112, 67, 0.2);
+  --border-radius: 8px;
+  --transition-duration: 0.3s;
+}
+
+/* Add Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+.auth-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: transform var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+}
+
+.auth-container:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 15px var(--box-shadow-color);
+}
+
+.auth-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: var(--text-color);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+input, textarea {
+  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--input-background-color);
+  color: var(--text-color);
+  transition: border-color var(--transition-duration) ease;
+}
+
+input:hover, textarea:hover {
+  border-color: #00000099;
+}
+
+input:focus, textarea:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+p {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color var(--transition-duration) ease;
+}
+
+a:hover {
+  text-decoration: underline var(--primary-color);
+}
+
+.btn,
+button[type=submit] {
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--primary-color);
+  background-color: #000000cc;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color var(--transition-duration) ease, transform var(--transition-duration) ease;
+}
+
+.btn:hover,
+button[type=submit]:hover {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+}
+
+.btn:active,
+button[type=submit]:active {
+  transform: scale(0.95);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: var(--border-radius);
+  background-color: var(--primary-color);
+  color: var(--background-color);
+  box-shadow: 0 2px 5px var(--box-shadow-color);
+}
+
+.header .logo {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--background-color);
+  text-decoration: none;
+  transition: color var(--transition-duration) ease;
+}
+
+.header .logo:hover {
+  color: var(--primary-hover-color);
+}
+
+.header h1 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+  text-align: center;
+  flex-grow: 1;
+}
+
+.logout-button {
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--primary-color);
+  background-color: var(--background-color);
+  border: none;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--transition-duration) ease, color var(--transition-duration) ease;
+}
+
+.logout-button:hover {
+  background-color: var(--primary-hover-color);
+  color: var(--text-color);
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.card {
+  flex: 1 1 calc(25% - 20px);
+  max-width: 200px;
+  padding: 20px;
+  text-align: center;
+  background-color: var(--primary-hover-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 5px var(--box-shadow-color);
+  transition: transform var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px var(--box-shadow-color);
+}
+
+.card a {
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--primary-color);
+  transition: color var(--transition-duration) ease;
+}
+
+.card a:hover {
+  color: var(--text-color);
+}
+
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 8px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.course-card {
+  background: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 16px;
+  margin: 8px;
+  flex: 1 1 calc(33.333% - 16px);
+  box-shadow: 0 2px 4px var(--box-shadow-color);
+  transition: transform var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+}
+
+.course-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px var(--box-shadow-color);
+}
+
+.course-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+  color: var(--text-color);
+}
+
+.course-description {
+  font-size: 14px;
+  margin: 0 0 8px 0;
+  color: var(--text-color);
+}
+
+.course-faculty {
+  font-size: 12px;
+  color: #555;
+  margin: 0 0 8px 0;
+}
+
+.course-card .btn {
+  background: var(--primary-hover-color);
+  color: var(--primary-color);
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color var(--transition-duration) ease, color var(--transition-duration) ease;
+}
+
+.course-card .btn:hover {
+  background: var(--primary-color);
+  color: var(--background-color);
+}
+
+.course-footer {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.enroll-button {
+  background: var(--primary-color);
+  color: var(--background-color);
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color var(--transition-duration) ease, transform var(--transition-duration) ease;
+}
+
+.enroll-button:hover {
+  background: var(--primary-hover-color);
+  color: var(--text-color);
+}
+
+.enroll-button:active {
+  transform: scale(0.95);
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--background-color);
+  padding: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 8px var(--box-shadow-color);
+  z-index: 1000;
+}
+
+#modalOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.modal h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: var(--text-color);
+}
+
+.modal p {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: var(--text-color);
+}
+
+.modal .btn {
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  gap: 10px;
+}
+
+.pagination button {
+  padding: 8px 12px;
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--primary-color);
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color var(--transition-duration) ease, color var(--transition-duration) ease;
+}
+
+.pagination button:hover {
+  background-color: var(--primary-hover-color);
+  color: var(--text-color);
+}
+
+.pagination button:disabled {
+  background-color: var(--border-color);
+  color: #999;
+  cursor: not-allowed;
+}
+
+.statistics-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.statistics-container .card {
+  flex: 1 1 calc(33.333% - 20px);
+  max-width: 300px;
+  padding: 20px;
+  text-align: center;
+  background-color: var(--primary-hover-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 5px var(--box-shadow-color);
+  transition: transform var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+}
+
+.statistics-container .card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px var(--box-shadow-color);
+}
+
+.statistics-container .card h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: var(--text-color);
+}
+
+.statistics-container .card p {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--primary-color);
+}

@@ -23,17 +23,28 @@ $totalFeedback = $db->query('SELECT COUNT(*) AS total FROM feedback')->fetch_ass
 </head>
 <body>
     <h1>Admin Dashboard</h1>
-    <p>Total Students: <?php echo $totalStudents; ?></p>
-    <p>Total Courses: <?php echo $totalCourses; ?></p>
-    <p>Total Feedback: <?php echo $totalFeedback; ?></p>
 
-    <div class="useful-links">
-        <h2>Useful Links</h2>
-        <ul>
-            <li><a href="manage_courses.php">Manage Courses</a></li>
-            <li><a href="manage_students.php">Manage Students</a></li>
-            <li><a href="view_feedback.php">View Feedback</a></li>
-        </ul>
+    <div class="statistics-container">
+        <div class="card">
+            <h3>Total Students</h3>
+            <p><?php echo $totalStudents; ?></p>
+        </div>
+        <div class="card">
+            <h3>Total Courses</h3>
+            <p><?php echo $totalCourses; ?></p>
+        </div>
+        <div class="card">
+            <h3>Total Feedback</h3>
+            <p><?php echo $totalFeedback; ?></p>
+        </div>
+    </div>
+
+    <div class="helpful-links">
+        <div class="card-container">
+            <div class="card"><a href="manage_courses.php">Manage Courses</a></div>
+            <div class="card"><a href="manage_students.php">Manage Students</a></div>
+            <div class="card"><a href="view_feedback.php">View Feedback</a></div>
+        </div>
     </div>
 </body>
 </html>

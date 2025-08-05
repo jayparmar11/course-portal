@@ -10,11 +10,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $role = 'student';
 
     if (empty($name) || empty($email) || empty($password)) {
-        die('All fields are required.');
+        echo "<script>alert('All fields are required.'); window.location.href='register.html';</script>";
+        exit;
     }
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        die('Invalid email format.');
+        echo "<script>alert('Invalid email format.'); window.location.href='register.html';</script>";
+        exit;
     }
 
     $passwordHash = password_hash($password, PASSWORD_BCRYPT);
@@ -22,10 +24,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $db->prepare('INSERT INTO users (name, email, password_hash, role) VALUES (?, ?, ?, ?)');
     $stmt->bind_param('ssss', $name, $email, $passwordHash, $role);
 
-    if ($stmt->execute()) {
-        header('Location: login.php');
+    try {
+        $stmt->execute();
+        header('Location: login.html');
         exit;
-    } else {
-        die('Error: ' . $stmt->error);
+    } catch (mysqli_sql_exception $e) {
+        if ($e->getCode() === 1062) { // Duplicate entry error code
+            echo "<script>alert('This email is already registered. Please use a different email.'); window.location.href='register.html';</script>";
+        } else {
+            echo "<script>alert('Error: " . $e->getMessage() . "'); window.location.href='register.html';</script>";
+        }
+        exit;
     }
 }

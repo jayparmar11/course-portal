@@ -1,7 +1,49 @@
 <?php
 require_once '../includes/header.php';
 require_once '../includes/db.php';
-require_once '../includes/courses_list.php';
+function displayAvailableCourses($db, $userId, $page = 1, $limit = 5) {
+    $offset = ($page - 1) * $limit;
+
+    // Fetch total courses count for pagination
+    $countStmt = $db->prepare('SELECT COUNT(*) AS total FROM courses WHERE id NOT IN (SELECT course_id FROM enrollments WHERE user_id = ?)');
+    $countStmt->bind_param('i', $userId);
+    $countStmt->execute();
+    $countResult = $countStmt->get_result();
+    $total = $countResult->fetch_assoc()['total'];
+    $totalPages = ceil($total / $limit);
+
+    // Fetch paginated courses
+    $availableCoursesStmt = $db->prepare('SELECT * FROM courses WHERE id NOT IN (SELECT course_id FROM enrollments WHERE user_id = ?) LIMIT ? OFFSET ?');
+    $availableCoursesStmt->bind_param('iii', $userId, $limit, $offset);
+    $availableCoursesStmt->execute();
+    $availableCourses = $availableCoursesStmt->get_result();
+
+    echo '<div class="courses-grid">';
+    while ($course = $availableCourses->fetch_assoc()) {
+        echo '<div class="course-card">';
+        echo '<div class="course-header">';
+        echo '<h3 class="course-title">' . htmlspecialchars($course['title']) . '</h3>';
+        echo '</div>';
+        echo '<div class="course-body">';
+        echo '<p class="course-description">' . htmlspecialchars($course['description']) . '</p>';
+        echo '<p class="course-faculty">Faculty: ' . htmlspecialchars($course['faculty']) . '</p>';
+        echo '</div>';
+        echo '<div class="course-footer">';
+        echo '<button class="enroll-button" onclick="enroll(' . $course['id'] . ')">Enroll</button>';
+        echo '</div>';
+        echo '</div>';
+    }
+    echo '</div>';
+
+    // Pagination controls
+    if ($totalPages > 1) {
+        echo '<div class="pagination">';
+        for ($i = 1; $i <= $totalPages; $i++) {
+            echo '<button onclick="loadPage(' . $i . ')">' . $i . '</button> ';
+        }
+        echo '</div>';
+    }
+}
 
 if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'student') {
     header('Location: ../auth/login.php');
@@ -17,31 +59,25 @@ $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 <head>
     <title>Available Courses</title>
     <link rel="stylesheet" href="../assets/css/style.css">
-    <style>
-        #courseModal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 20px;
-            border: 1px solid black;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-        }
+</head>
+<body><h2>Available Courses</h2>
+    <div class="courses-container">
+        <?php
+        displayAvailableCourses($db, $userId, $page);
+        ?>
+    </div>
 
-        #modalOverlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-    </style>
+    <!-- Modal Overlay -->
+    <div id="modalOverlay" onclick="closeModal()"></div>
+
+    <!-- Modal Structure -->
+    <div id="courseModal" class="modal">
+        <h2 id="modalTitle"></h2>
+        <p id="modalDescription"></p>
+        <p id="modalFaculty"></p>
+        <button onclick="closeModal()" class="btn">Close</button>
+    </div>
+
     <script>
         function loadPage(page) {
             window.location.href = `courses.php?page=${page}`;
@@ -69,25 +105,7 @@ $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
             document.getElementById('modalOverlay').style.display = 'none';
             document.getElementById('courseModal').style.display = 'none';
         }
-    </script>
-</head>
-<body>
-    <?php
-    displayAvailableCourses($db, $userId, $page);
-    ?>
 
-    <!-- Modal Overlay -->
-    <div id="modalOverlay" onclick="closeModal()"></div>
-
-    <!-- Modal Structure -->
-    <div id="courseModal">
-        <h2 id="modalTitle"></h2>
-        <p id="modalDescription"></p>
-        <p id="modalFaculty"></p>
-        <button onclick="closeModal()">Close</button>
-    </div>
-
-    <script>
         function enroll(courseId) {
             const xhr = new XMLHttpRequest();
             xhr.open('POST', 'enroll_ajax.php', true);
